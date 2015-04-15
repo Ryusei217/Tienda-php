@@ -43,12 +43,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-2 col-md-8">
-                <form method="POST" action="guardar.php">
+                <form>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</h4>
                         </div>
                         <div class="panel-body">
+                           <p id="respuesta"></p>
                             <div class="form-group">
                                 <label>DPI</label>
                                 <input class="form-control" type="text" id="dpi" name="dpi">
@@ -59,7 +60,7 @@
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+                            <button id="btnGuardar" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
                             <a class="btn btn-default" href="index.php"><span class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a>
                         </div>
                     </div>
@@ -72,5 +73,26 @@
     <script src="../../js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../js/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        $('#btnGuardar').click(function () {
+            $.ajax({
+                url: 'guardar.php',
+                type: 'POST',
+                data: {
+                    'dpi': $('#dpi').val(),
+                    'nombre': $('#nombre').val()
+                },
+                success: function (data) {
+                    $('#dpi').val('');
+                    $('#nombre').val('');
+                    //alert(data.msj);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#respuesta').html(errorThrown);
+                }
+            });
+        });
+    </script>
   </body>
 </html>
