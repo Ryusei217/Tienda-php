@@ -31,6 +31,9 @@
       </div>
     </nav>
 
+<div class="container">
+
+      <div class="row">
 	<div class="col-md-12">
                 <a class="btn btn-primary" href="nuevo.php"><span class="glyphicon glyphicon-plus"></span> Nuevo Articulo</a>
                 <br />
@@ -101,7 +104,8 @@
                         </div>
                        </div>
                       </div>
-
+    </div>
+    </div>
 
 </body>
 </html>

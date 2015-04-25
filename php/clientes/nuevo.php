@@ -86,7 +86,7 @@
                 success: function (data) {
                     $('#dpi').val('');
                     $('#nombre').val('');
-                    //alert(data.msj);
+                    $('#respuesta').html(data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('#respuesta').html(errorThrown);

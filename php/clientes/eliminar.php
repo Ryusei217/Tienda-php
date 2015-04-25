@@ -43,12 +43,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-2 col-md-8">
-                <form method="POST" action="guardar.php">
+                <form>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</h4>
                         </div>
                         <div class="panel-body">
+                           <p id="respuesta"></p>
                             <?php
                                 $servername = "localhost";
                                 $username = "tienda";
@@ -71,6 +72,7 @@
 
                                 if($result->num_rows > 0) {
                                     if($row = $result->fetch_assoc()) {
+                                        echo "<input type='hidden' value='".$row["idCliente"]."' name='id' id='id'>";
                                         echo "<div class='form-group'>
                                                 <label>DPI</label><div>".$row["dpi"]."
                                             </div></div>";
@@ -87,7 +89,7 @@
                             ?>
                         </div>
                         <div class="panel-footer">
-                            <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</button>
+                            <button id="btnEliminar" class="btn btn-danger" type="button"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</button>
                             <a class="btn btn-default" href="index.php"><span class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a>
                         </div>
                     </div>
@@ -100,5 +102,22 @@
     <script src="../../js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../js/bootstrap.js"></script>
+    <script type="text/javascript">
+        $('#btnEliminar').click(function () {
+            $.ajax({
+                url: 'borrar.php',
+                type: 'POST',
+                data: {
+                    'id': $('#id').val()
+                },
+                success: function (data) {
+                    $('#respuesta').html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#respuesta').html(errorThrown);
+                }
+            });
+        });
+    </script>
   </body>
 </html>
