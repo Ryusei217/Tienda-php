@@ -12,16 +12,15 @@
         die("Fallo la conexion: " . $conn->connect_error);
     }
 
-    $consulta = $conn->prepare("INSERT INTO Articulo (numeroSerie, nombre, precio) values(?,?,?)");
-    $consulta->bind_param("ssd", $numeroSerie, $nombre, $precio);
+    $id = $_POST["id"];
 
-    $numeroSerie = $_POST["numeroSerie"];
-    $nombre = $_POST["nombre"];
-    $precio = $_POST["precio"];
+    $consulta = $conn->prepare("DELETE FROM articulo WHERE idArticulo = ? ");
+    $consulta->bind_param("i", $id);
 
     $consulta->execute();
+
     $consulta->close();
     $conn->close();
 
-    echo json_encode(array('msj' =>'Articulo guardado'));
+    echo json_encode(array('msj' => 'Articulo eliminado'));
 ?>

@@ -12,16 +12,17 @@
         die("Fallo la conexion: " . $conn->connect_error);
     }
 
-    $consulta = $conn->prepare("INSERT INTO Articulo (numeroSerie, nombre, precio) values(?,?,?)");
-    $consulta->bind_param("ssd", $numeroSerie, $nombre, $precio);
-
-    $numeroSerie = $_POST["numeroSerie"];
+    $id = $_POST["id"];
+    $dpi = $_POST["dpi"];
     $nombre = $_POST["nombre"];
-    $precio = $_POST["precio"];
+
+    $consulta = $conn->prepare("UPDATE cliente SET dpi=?, nombre=? WHERE idCliente = ? ");
+    $consulta->bind_param("ssi", $dpi, $nombre, $id);
 
     $consulta->execute();
+
     $consulta->close();
     $conn->close();
 
-    echo json_encode(array('msj' =>'Articulo guardado'));
+    echo json_encode(array('msj' => 'Cliente editado'));
 ?>

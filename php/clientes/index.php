@@ -93,6 +93,7 @@
                                                 echo "<td>" . $row["dpi"] . "</td>";
                                                 echo "<td>" . $row["nombre"] . "</td>";
                                                 echo "<td><a class='btn btn-xs btn-danger' href='eliminar.php?id=".$row["idCliente"]."'>Borrar</a>";
+                                                echo "<a class='btn btn-xs btn-warning' href='editar.php?id=".$row["idCliente"]."'>Editar</a></td>";
                                                 echo "</th>";
                                             }
                                         }
