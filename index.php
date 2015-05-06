@@ -9,6 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/main.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -33,9 +34,32 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/Tienda">Inicio</a></li>
-            <li><a href="php/clientes/index.php">Clientes</a></li>
-            <li><a href="php/articulos/index.php">Articulos</a></li>
+            <?php
+                session_start();
+                if(isset($_SESSION['idUsuario'])){
+                    echo "<li><a href='php/clientes/index.php'>Clientes</a></li>";
+                    echo "<li><a href='php/articulos/index.php'>Articulos</a></li>";
+                }
+            ?>
           </ul>
+          <ul class="nav navbar-nav navbar-right">
+               <?php
+
+                    echo "<p class='navbar-text'>";
+
+                    if(isset($_SESSION['nick']))
+                        echo 'Bienvenido '.$_SESSION['nick'];
+                    else
+                       echo "Bienvenido Anonimo";
+
+                    echo "</p>";
+
+                    if(isset($_SESSION['idUsuario']))
+                        echo "<li><a href='php/usuarios/cerrar.php'>Cerrar</a></li>";
+                    else
+                        echo "<li><a href='php/usuarios/login.php'>Entrar</a></li>";
+                ?>
+            </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -45,6 +69,8 @@
       <div class="starter-template">
         <h1>Bootstrap starter template</h1>
         <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+        <a class="btn btn-primary" href="php/usuarios/registrar.php"><i class="fa fa-key"></i> Registrarse</a>
+        <a class="btn btn-success" href="php/usuarios/login.php"><i class="fa fa-sign-in"></i> Iniciar Sesión</a>
       </div>
 
     </div>

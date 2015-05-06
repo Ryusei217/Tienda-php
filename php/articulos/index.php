@@ -27,6 +27,24 @@
             <li><a href="../clientes/index.php">Clientes</a></li>
             <li><a href="#">Articulos</a></li>
           </ul>
+          <ul class="nav navbar-nav navbar-right">
+               <?php
+                    session_start();
+                    echo "<p class='navbar-text'>";
+
+                    if(isset($_SESSION['nick']))
+                        echo 'Bienvenido '.$_SESSION['nick'];
+                    else
+                       echo "Bienvenido Anonimo";
+
+                    echo "</p>";
+
+                    if(isset($_SESSION['idUsuario']))
+                        echo "<li><a href='../usuarios/cerrar.php'>Cerrar</a></li>";
+                    else
+                        echo "<li><a href='../usuarios/login.php'>Entrar</a></li>";
+                ?>
+            </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -63,6 +81,8 @@
                                 </thead>
                                 <tbody>
                                     <?php
+                                        if (!isset($_SESSION['idUsuario']))
+                                            die('No ha iniciado sesion.');
                                         $servername = "localhost";
                                         $username = "tienda";
                                         $password = "Tienda.2014";

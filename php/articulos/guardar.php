@@ -1,4 +1,7 @@
 <?php
+    session_start();
+    if (!isset($_SESSION['idUsuario']))
+        die('No ha iniciado sesion.');
     $servername = "localhost";
     $username = "tienda";
     $password = "Tienda.2014";
