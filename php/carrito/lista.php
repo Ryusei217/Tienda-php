@@ -26,7 +26,7 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/Tienda">Inicio</a></li>
             <li><a href="../clientes/index.php">Clientes</a></li>
-            <li><a href="#">Articulos</a></li>
+            <li><a href="../articulos/index.php">Articulos</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
                <?php
@@ -64,64 +64,46 @@
                         <div class="panel-body">
                             <table class="table table-hover">
                                 <thead>
+                                   <th>
+                                       No. Serie
+                                   </th>
                                     <th>
-                                        ID
+                                        Articulo
                                     </th>
-
-                                    <th>
-                                        numeroSerie
-                                    </th>
-                                        
-                                    <th>
-                                        Nombre
-                                    </th>
-
                                     <th>
                                         Precio
+                                    </th>
+                                    <th>
+                                        Cantidad
+                                    </th>
+                                    <th>
+                                        Total
                                     </th>
                                 </thead>
                                 <tbody>
                                     <?php
                                         if (!isset($_SESSION['idUsuario']))
                                             die('No ha iniciado sesion.');
-                                        $servername = "localhost";
-                                        $username = "tienda";
-                                        $password = "Tienda.2014";
-                                        $db = "tienda";
 
-                                        // Create connection
-                                        $conn = new mysqli($servername, $username, $password, $db);
-
-                                        // Check connection
-                                        if ($conn->connect_error) {
-                                            die("Fallo la conexion: " . $conn->connect_error);
-                                        }
-
-                                        $sql = "SELECT * FROM Articulo";
-
-                                        $result = $conn->query($sql);
-
-                                        if($result->num_rows > 0) {
-                                            while($row = $result->fetch_assoc()) {
+                                        if(count($_SESSION["carrito"]) > 0) {
+                                            while($row = next($_SESSION["carrito"])) {
                                                 echo "<tr>";
-                                                echo "<td>" . $row["idArticulo"] . "</td>";
-                                                echo "<td>" . $row["numeroSerie"] . "</td>";
-                                                echo "<td>" . $row["nombre"] . "</td>";
-                                                echo "<td>" . $row["precio"] . "</td>";
-                                                echo "<td><a class='btn btn-xs btn-danger' href='eliminar.php?id=".$row["idArticulo"]."'>Borrar</a><a class='btn btn-xs btn-success' href='../carrito/carrito.php?id=".$row["idArticulo"]."'><i class='fa fa-shopping-cart'></i> Agregar</a>";
-                                                echo "</th>";
+                                                echo "<td>".$row["articulo"]["numeroSerie"]."</td>";
+                                                echo "<td>".$row["articulo"]["nombre"]."</td>";
+                                                echo "<td>".$row["articulo"]["precio"]."</td>";
+                                                echo "<td>".$row["cantidad"]."</td>";
+                                                $precio = $row["articulo"]["precio"] * $row["cantidad"];
+                                                echo "<td>".$precio."</td>";
                                             }
                                         }
                                         else {
                                             echo "0 Resultados";
                                         }
-
-                                        $conn->close();
                                     ?>
                                 </tbody>
-                                
+
                             </table>
-                            
+
                         </div>
                        </div>
                       </div>

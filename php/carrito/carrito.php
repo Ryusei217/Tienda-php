@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Tienda de Articulos</title>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Articulo</title>
 
-    <!-- Bootstrap -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../css/main.css">
-  </head>
+</head>
 
-  <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+<body>
+	 <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -27,8 +25,8 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/Tienda">Inicio</a></li>
-            <li><a href="php/clientes/index.php">Clientes</a></li>
-            <li><a href="php/articulos/index.php">Articulos</a></li>
+            <li><a href="../clientes/index.php">Clientes</a></li>
+            <li><a href="#">Articulos</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
                <?php
@@ -52,13 +50,14 @@
       </div>
     </nav>
 
-    <div class="container">
-        <div class="row">
+<div class="container">
+
+    <div class="row">
             <div class="col-md-offset-2 col-md-8">
-                <form>
+                <form class="form">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h4><span class="glyphicon glyphicon-plus"></span> Nuevo Articulo</h4>
+                            <h4><span class="fa fa-search"></span> Detalle del Articulo</h4>
                         </div>
                         <div class="panel-body">
                            <p id="respuesta"></p>
@@ -103,32 +102,41 @@
                                 }
 
                                 $conn->close();
+                                echo "<input id='id' type='hidden' name='id' value='".$id."'>";
                             ?>
+                            <!-- input escondido para el id -->
+
+
+                            <div class="form-group">
+                                <label>Cantidar:</label>
+                                <input id="cantidad" class="form-control" name="cantidad" type="number" min="1" value="1">
+                            </div>
                         </div>
                         <div class="panel-footer">
-                            <button id="btnEliminar" class="btn btn-danger" type="button"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</button>
-                            <a class="btn btn-default" href="index.php"><span class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a>
+                            <button id="btnAgregar" class="btn btn-success" type="button"><span class="fa fa-plus-circle"></span> Agregar</button>
+                            <a class="btn btn-default" href="../articulos/index.php"><span class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="../../js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../js/bootstrap.js"></script>
     <script type="text/javascript">
-        $('#btnEliminar').click(function () {
+        $('#btnAgregar').click(function () {
             $.ajax({
-                url: 'borrar.php',
+                url: 'agregar.php',
                 type: 'POST',
                 data: {
-                    'id': $('#id').val()
+                    'id': $('#id').val(),
+                    'cantidad': $('#cantidad').val()
                 },
                 success: function (data) {
-                    $('#respuesta').html(data.message);
+
+                        $('#respuesta').html(data.message);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('#respuesta').html(errorThrown);
@@ -137,4 +145,5 @@
         });
     </script>
 
+</body>
 </html>

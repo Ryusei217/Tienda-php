@@ -6,6 +6,7 @@
     $username = "tienda";
     $password = "Tienda.2014";
     $db = "tienda";
+    $jsondata = array();
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $db);
@@ -15,15 +16,26 @@
         die("Fallo la conexion: " . $conn->connect_error);
     }
 
-    $id = $_POST["id"];
+    if(isset($_POST["id"]){
+        $id = $_POST["id"];
 
-    $consulta = $conn->prepare("DELETE FROM articulo WHERE idArticulo = ? ");
-    $consulta->bind_param("i", $id);
+        $consulta = $conn->prepare("DELETE FROM articulo WHERE idArticulo = ? ");
+        $consulta->bind_param("i", $id);
 
-    $consulta->execute();
+        $consulta->execute();
 
-    $consulta->close();
-    $conn->close();
+        $consulta->close();
+        $conn->close();
+        $jsondata['success'] = true;
+        $jsondata['message'] = 'Articulo Eliminado';
+    }
+    else {
+        $jsondata['success'] = false;
+        $jsondata['message'] = 'Error: no se ha definido un articulo valido.';
+    };
 
-    echo json_encode(array('msj' => 'Articulo eliminado'));
+    //Aunque el content-type no sea un problema en la mayoría de casos, es recomendable especificarlo
+    header('Content-type: application/json; charset=utf-8');
+
+    echo json_encode($jsondata);
 ?>
