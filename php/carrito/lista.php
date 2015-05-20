@@ -29,6 +29,7 @@
             <li><a href="../articulos/index.php">Articulos</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+              <li><a href="#"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
                <?php
                     session_start();
                     echo "<p class='navbar-text'>";
@@ -54,12 +55,30 @@
 
       <div class="row">
 	<div class="col-md-12">
-                <a class="btn btn-primary" href="nuevo.php"><span class="glyphicon glyphicon-plus"></span> Nuevo Articulo</a>
+                <a class="btn btn-primary" href="../articulos/index.php"><span class="glyphicon glyphicon-plus"></span> Lista de Articulos</a>
                 <br />
                 <br />
+                <div id="alerta" class="alert alert-danger" role="alert">
+                    Error
+                </div>
+                 <form method="post" action="pedido.php">
+                   <h2>Datos del cliente</h2>
+                   <input type="hidden" id="idCliente" name="idCliente">
+                    <div class="form-group">
+                     <label>DPI</label>
+                     <input id="dpi" type="text" name="dpi" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input id="nombre" type="text" name="nombre" class="form-control" required readonly>
+                    </div>
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> Enviar</button>
+                    <button id="btnBuscar" class="btn btn-default" type="button"><i class="fa fa-search"></i> Buscar</button>
+                 </form>
+                 <br/>
                   <div class="panel panel-primary">
                         <div class="panel-heading">
-                            Clientes
+                            <h5><i class="fa fa-shopping-cart"></i> Carrito</h5>
                         </div>
                         <div class="panel-body">
                             <table class="table table-hover">
@@ -86,6 +105,7 @@
                                             die('No ha iniciado sesion.');
 
                                         if(count($_SESSION["carrito"]) > 0) {
+                                            $total = 0;
                                             while($row = next($_SESSION["carrito"])) {
                                                 echo "<tr>";
                                                 echo "<td>".$row["articulo"]["numeroSerie"]."</td>";
@@ -93,8 +113,10 @@
                                                 echo "<td>".$row["articulo"]["precio"]."</td>";
                                                 echo "<td>".$row["cantidad"]."</td>";
                                                 $precio = $row["articulo"]["precio"] * $row["cantidad"];
-                                                echo "<td>".$precio."</td>";
+                                                echo "<td>".$precio."</td></tr>";
+                                                $total += $precio;
                                             }
+                                            echo "<tr class='success'><td></td><td><strong>Total</strong></td><td></td><td></td><td><strong>".$total."</strong></td></tr>";
                                         }
                                         else {
                                             echo "0 Resultados";
@@ -110,5 +132,40 @@
     </div>
     </div>
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../../js/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../../js/bootstrap.js"></script>
+    <script type="text/javascript">
+        // A $( document ).ready() block.
+        $( document ).ready(function() {
+            $('#alerta').hide();
+        });
+        $('#btnBuscar').click(function () {
+            $.ajax({
+                url: '../clientes/buscar.php',
+                type: 'POST',
+                data: {
+                    'dpi': $('#dpi').val()
+                },
+                success: function (data) {
+                    if(data.success === true){
+                        $('#nombre').val(data.cliente.nombre);
+                        $('#idCliente').val(data.cliente.idCliente);
+                        $('#alerta').hide();
+                    }
+                    else {
+                        $('#alerta').show();
+                        $('#nombre').val("");
+                        $('#idCliente').val("");
+                        $('#alerta').html("<strong><i class='fa fa-exclamation-circle'></i> Error:</strong> " + data.message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#respuesta').html(errorThrown);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

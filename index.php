@@ -43,6 +43,7 @@
             ?>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+              <li><a href="../carrito/lista.php"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
                <?php
 
                     echo "<p class='navbar-text'>";

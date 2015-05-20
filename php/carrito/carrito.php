@@ -29,6 +29,7 @@
             <li><a href="#">Articulos</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+              <li><a href="lista.php"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
                <?php
                     session_start();
                     echo "<p class='navbar-text'>";
