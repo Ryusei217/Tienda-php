@@ -61,7 +61,7 @@
                 <div id="alerta" class="alert alert-danger" role="alert">
                     Error
                 </div>
-                 <form method="post" action="pedido.php">
+                 <form id="formulario" method="post" action="pedido.php">
                    <h2>Datos del cliente</h2>
                    <input type="hidden" id="idCliente" name="idCliente">
                     <div class="form-group">
@@ -104,6 +104,9 @@
                                         if (!isset($_SESSION['idUsuario']))
                                             die('No ha iniciado sesion.');
 
+                                        if(!isset($_SESSION["carrito"]))
+                                            die('No hay elementos en el carrito');
+
                                         if(count($_SESSION["carrito"]) > 0) {
                                             $total = 0;
                                             while($row = next($_SESSION["carrito"])) {
@@ -125,7 +128,7 @@
                                 </tbody>
 
                             </table>
-
+                            <a href="limpiar.php" class="btn btn-danger"><i class="fa fa-times-circle"></i> Vaciar Carrito</a>
                         </div>
                        </div>
                       </div>
@@ -137,11 +140,30 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../js/bootstrap.js"></script>
     <script type="text/javascript">
-        // A $( document ).ready() block.
+        //Prevent key enter event on form
+        function stopRKey(evt) {
+            var evt = (evt) ? evt : ((event) ? event : null);
+            var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+            if ((evt.keyCode == 13) && (node.type == "text")) { return false; }
+        }
+
+        //Register stopRkey
+        document.onkeypress = stopRKey;
+
         $( document ).ready(function() {
             $('#alerta').hide();
         });
+
         $('#btnBuscar').click(function () {
+            buscarCliente();
+        });
+
+        $('#dpi').keypress(function(e) {
+            if(e.which == 13)
+                buscarCliente();
+        });
+
+        function buscarCliente(){
             $.ajax({
                 url: '../clientes/buscar.php',
                 type: 'POST',
@@ -165,7 +187,7 @@
                     $('#respuesta').html(errorThrown);
                 }
             });
-        });
+        };
     </script>
 </body>
 </html>
